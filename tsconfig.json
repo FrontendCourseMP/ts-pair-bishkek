@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    // Файловая структура
+    "rootDir": "./src",
+    "outDir": "./dist",
+    
+    // Настройки модулей
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    
+    // Целевая версия JavaScript
+    "target": "ES2020",
+    
+    // Строгие проверки
+    "strict": true,
+    
+    // Дополнительные настройки
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
