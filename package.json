@@ -1,0 +1,14 @@
+{
+  "name": "web-practice",
+  "version": "1.0.0",
+  "description": "ts-pair-bishkek",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "serve": "npx serve dist"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

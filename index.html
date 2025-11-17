@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Время прибытия</title>
+  <script src="./dist/index.js" defer></script>
+  <script src="./dist/task2.js" defer></script>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
+    form { display: grid; gap: 12px; max-width: 360px; margin-bottom: 24px; }
+    label { display: grid; gap: 6px; }
+    input[type="number"], input[type="text"] { padding: 8px; font-size: 14px; }
+    button { padding: 10px 14px; font-size: 14px; cursor: pointer; }
+    output { display: block; margin-top: 12px; font-weight: 600; }
+    .small { color: #666; font-size: 12px; }
+    .examples { margin-top: 16px; }
+    .example { cursor: pointer; padding: 4px; margin: 4px 0; }
+    .example:hover { background-color: #f0f0f0; }
+    .valid { color: green; }
+    .invalid { color: red; }
+  </style>
+</head>
+<body>
+  <h1>Время прибытия</h1>
+  <form id="arrival-form">
+    <label>
+      Час прибытия по расписанию (0–23)
+      <input id="scheduledHour" name="scheduledHour" type="number" inputmode="numeric" min="0" max="23" required />
+    </label>
+    <label>
+      Часы опоздания (0 и более)
+      <input id="delayHours" name="delayHours" type="number" inputmode="numeric" min="0" required />
+    </label>
+    <button type="submit">Рассчитать</button>
+    <output id="result" for="scheduledHour delayHours"></output>
+  </form>
+
+  <h1>Валидатор скобок</h1>
+  <form id="bracket-form">
+    <label>
+      Введите строку со скобками ((), {}, [])
+      <input id="bracketInput" name="bracketInput" type="text" value="({[]})" required />
+    </label>
+    <button type="submit">Проверить</button>
+    <output id="result2"></output>
+  </form>
+
+  <div class="examples">
+    <p>Примеры для проверки:</p>
+    <div class="example" data-example="()">()</div>
+    <div class="example" data-example="()[]{}">()[]{}</div>
+    <div class="example" data-example="(]">(]</div>
+    <div class="example" data-example="([)]">([)]</div>
+    <div class="example" data-example="{[]}">{[]}</div>
+    <div class="example" data-example="">"" (пустая строка)</div>
+  </div>
+
+  <script>
+    document.getElementById('arrival-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const scheduledHour = parseInt(document.getElementById('scheduledHour').value);
+      const delayHours = parseInt(document.getElementById('delayHours').value);
+      const result = (scheduledHour + delayHours) % 24;
+      document.getElementById('result').textContent = `Час прибытия: ${result}`;
+    });
+
+    document.getElementById('bracket-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      checkBrackets();
+    });
+
+    function checkBrackets() {
+      const input = document.getElementById('bracketInput').value;
+      
+      if (typeof BracketValidator === 'undefined') {
+        document.getElementById('result2').textContent = 'Ошибка: класс BracketValidator не загружен';
+        document.getElementById('result2').className = 'invalid';
+        return;
+      }
+      
+      const validator = new BracketValidator();
+      const isValid = validator.isValid(input);
+      
+      const result2 = document.getElementById('result2');
+      result2.textContent = isValid ? 'Правильно' : 'Неправильно';
+      result2.className = isValid ? 'valid' : 'invalid';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const examples = document.querySelectorAll('.example');
+      examples.forEach(example => {
+        example.addEventListener('click', function() {
+          const exampleText = this.getAttribute('data-example');
+          document.getElementById('bracketInput').value = exampleText;
+          checkBrackets();
+        });
+      });
+    });
+  </script>
+</body>
+</html>
